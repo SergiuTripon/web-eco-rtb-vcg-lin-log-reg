@@ -1,1 +1,1 @@
-# web-economics-assignment1
+# Web Economics - Assignment 1 - Part A & B
