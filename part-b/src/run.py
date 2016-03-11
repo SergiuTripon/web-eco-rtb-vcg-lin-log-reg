@@ -61,14 +61,8 @@ def run(reg_grad, learning_rate, threshold):
     results = test.test(trained_weights, test_set, reg_grad)
 
     # compute roc curve
-    true_false_rates = eval.roc_curve(results)
+    true_false_rates = eval.roc_curve(results, reg_grad, learning_rate)
     true_false_rates = true_false_rates[::-1]
-
-    # write roc data to file
-    with open('output/text/{}_{}_roc.txt'.format(reg_grad.__name__, learning_rate).lower(), mode='w') as fd:
-        for true_pos_rate, false_pos_rate in true_false_rates:
-            fd.write('{}, {}\n'.format(true_pos_rate, false_pos_rate))
-    print('> Saved ROC data to file', '\n')
 
     # compute auc
     auc = eval.comp_auc(true_false_rates)

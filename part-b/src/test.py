@@ -65,8 +65,8 @@ def train(weights, train_set, reg_grad, learning_rate, threshold):
 
         if new_error <= start_error:
             print('> Epoch:', epoch, '| Train MSE is converging:', new_error)
-            with open('output/text/{}_{}.txt'.format(reg_grad.__name__, learning_rate), mode='a') as fd:
-                fd.write('{},{}\n'.format(epoch, new_error))
+            with open('output/text/{}_{}.txt'.format(reg_grad.__name__, learning_rate), mode='a') as file:
+                file.write('{},{}\n'.format(epoch, new_error))
             epoch1.append(epoch)
             new_error1.append(new_error)
             epoch += 1

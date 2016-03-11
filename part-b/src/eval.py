@@ -19,7 +19,7 @@ class Result(object):
 ########################################################################################################################
 
 # computes roc curve data
-def roc_curve(results):
+def roc_curve(results, reg_grad, learning_rate):
 
     # sort results by weight
     results = sorted(results, key=operator.attrgetter("weight"))
@@ -55,7 +55,13 @@ def roc_curve(results):
         # compile all rates in one list
         rates = [true_pos_rate, false_pos_rate]
 
+        # write roc data to file
+        with open('output/text/{}_{}_roc.txt'.format(reg_grad.__name__, learning_rate), mode='a') as file:
+            file.write('{},{}\n'.format(rates[0], [1]))
+
         true_false_rates.append((rates[0], rates[1]))
+
+    print('> Saved ROC data to file', '\n')
 
     return true_false_rates
 
