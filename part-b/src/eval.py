@@ -57,7 +57,7 @@ def roc_curve(results, reg_grad, learning_rate):
 
         # write roc data to file
         with open('output/text/{}_{}_roc.txt'.format(reg_grad.__name__, learning_rate), mode='a') as file:
-            file.write('{},{}\n'.format(rates[0], [1]))
+            file.write('{},{}\n'.format(rates[0], rates[1]))
 
         true_false_rates.append((rates[0], rates[1]))
 
