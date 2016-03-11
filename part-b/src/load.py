@@ -3,12 +3,12 @@
 
 
 class Email(object):
-    def __init__(self, features, label):
-        # features
-        self.features = features
+    def __init__(self, attributes, gold):
+        # attributes
+        self.attributes = attributes
 
-        # label
-        self.label = label
+        # gold
+        self.gold = gold
 
 
 ########################################################################################################################

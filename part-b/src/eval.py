@@ -7,9 +7,9 @@ import operator
 
 class Result(object):
 
-    def __init__(self, label, trained_weight, prediction):
+    def __init__(self, gold, trained_weight, prediction):
 
-        self.label = label
+        self.gold = gold
 
         self.weight = trained_weight
 
@@ -37,13 +37,13 @@ def roc_curve(results, reg_grad, learning_rate):
         false_pos = [0.0]
 
         for result1 in results:
-            if result1.label == 1 and result1.weight >= result.weight:
+            if result1.gold == 1 and result1.weight >= result.weight:
                 true_pos[0] += 1.0
-            elif result1.label == 0 and result1.weight < result.weight:
+            elif result1.gold == 0 and result1.weight < result.weight:
                 true_neg[0] += 1.0
-            elif result1.label == 0 and result1.weight >= result.weight:
+            elif result1.gold == 0 and result1.weight >= result.weight:
                 false_pos[0] += 1.0
-            elif result1.label == 1 and result1.weight < result.weight:
+            elif result1.gold == 1 and result1.weight < result.weight:
                 false_neg[0] += 1.0
 
         # compute true positive rate
@@ -74,7 +74,8 @@ def comp_auc(true_false_rates):
         res1 += sum([(x0 + x1) * (y0 - y1)])
 
     auc = 1.0 / 2 * res1
-    return auc
+
+    print('> AUC:', auc, '\n')
 
 
 ########################################################################################################################

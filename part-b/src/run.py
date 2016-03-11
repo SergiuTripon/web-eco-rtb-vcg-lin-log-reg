@@ -15,28 +15,26 @@ def run(reg_grad, learning_rate, threshold):
 
     data = load.load_file("input/spambase.data", load.data_format)
 
-    def z_score(feature):
-        mu = sum(feature) / float(len(feature))
-        sd = (sum([(x - mu) ** 2 for x in feature]) / float(len(feature) - 1)) ** 0.5
-        zscore = [(x - mu) / float(sd) for x in feature]
+    def z_score(attribute):
+        mu = sum(attribute) / float(len(attribute))
+        sd = (sum([(x - mu) ** 2 for x in attribute]) / float(len(attribute) - 1)) ** 0.5
+        zscore = [(x - mu) / float(sd) for x in attribute]
         return zscore
 
     def precondition(data_set):
-        features = [email.features for email in data_set]
-        features_zscore = [z_score(feature) for feature in features]
+        attributes = [email.attributes for email in data_set]
+        features_zscore = [z_score(attribute) for attribute in attributes]
 
-        for email, features in zip(data_set, features_zscore):
-            email.features = features
+        for email, attributes in zip(data_set, features_zscore):
+            email.attributes = attributes
 
     precondition(data)
 
-    folds = []
-    for i in range(10):
-        folds.append([])
+    folds = [[], [], [], [], [], [], [], [], [], []]
 
     k = 0
-    for data_point in data:
-        folds[k].append(data_point)
+    for email in data:
+        folds[k].append(email)
         k = operator.mod((k + 1), 10)
 
     test_set = folds[0]
@@ -51,11 +49,9 @@ def run(reg_grad, learning_rate, threshold):
     print('> Train set size:', len(train_set), '\n')
 
     print('##########################################################################\n')
-    print('> Training', reg_grad.__name__, '\n')
 
     # train
-    init_weights = 57 * [0.0]
-    trained_weights = test.train(init_weights, train_set, reg_grad, learning_rate, threshold)
+    trained_weights = test.train(train_set, reg_grad, learning_rate, threshold)
 
     # test
     results = test.test(trained_weights, test_set, reg_grad)
@@ -65,8 +61,7 @@ def run(reg_grad, learning_rate, threshold):
     true_false_rates = true_false_rates[::-1]
 
     # compute auc
-    auc = eval.comp_auc(true_false_rates)
-    print('> AUC:', auc, '\n')
+    eval.comp_auc(true_false_rates)
 
     print('##########################################################################')
 

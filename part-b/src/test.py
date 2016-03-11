@@ -17,21 +17,26 @@ def mse(list1, list2):
 ########################################################################################################################
 
 
-def train(weights, train_set, reg_grad, learning_rate, threshold):
+def train(train_set, reg_grad, learning_rate, threshold):
+
+    print('> Training', reg_grad.__name__, '\n')
 
     print('> Learning rate:', learning_rate)
 
     # initialize the error
+    
+    weights = 57 * [0.0]
+    
     res1 = []
     res2 = []
     if reg_grad.__name__[:3] == "lin":
         for email in train_set:
-            res1 += [sum([x * y for x, y in zip(weights, email.features)])]
-            res2 += [email.label]
+            res1 += [sum([x * y for x, y in zip(weights, email.attributes)])]
+            res2 += [email.gold]
     elif reg_grad.__name__[:3] == "log":
         for email in train_set:
-            res1 += [proc.log_sigmoid(sum([x * y for x, y in zip(weights, email.features)]))]
-            res2 += [email.label]
+            res1 += [proc.log_sigmoid(sum([x * y for x, y in zip(weights, email.attributes)]))]
+            res2 += [email.gold]
 
     start_error = mse(res1, res2)
 
@@ -54,12 +59,12 @@ def train(weights, train_set, reg_grad, learning_rate, threshold):
         res2 = []
         if reg_grad.__name__[:3] == "lin":
             for email in train_set:
-                res1 += [sum([x * y for x, y in zip(new_weights, email.features)])]
-                res2 += [email.label]
+                res1 += [sum([x * y for x, y in zip(new_weights, email.attributes)])]
+                res2 += [email.gold]
         elif reg_grad.__name__[:3] == "log":
             for email in train_set:
-                res1 += [proc.log_sigmoid(sum([x * y for x, y in zip(new_weights, email.features)]))]
-                res2 += [email.label]
+                res1 += [proc.log_sigmoid(sum([x * y for x, y in zip(new_weights, email.attributes)]))]
+                res2 += [email.gold]
 
         new_error = mse(res1, res2)
 
@@ -98,12 +103,12 @@ def test(trained_weights, test_set, reg_grad):
     res2 = []
     if reg_grad.__name__[:3] == "lin":
         for email in test_set:
-            res1 += [sum([x * y for x, y in zip(trained_weights, email.features)])]
-            res2 += [email.label]
+            res1 += [sum([x * y for x, y in zip(trained_weights, email.attributes)])]
+            res2 += [email.gold]
     elif reg_grad.__name__[:3] == "log":
         for email in test_set:
-            res1 += [proc.log_sigmoid(sum([x * y for x, y in zip(trained_weights, email.features)]))]
-            res2 += [email.label]
+            res1 += [proc.log_sigmoid(sum([x * y for x, y in zip(trained_weights, email.attributes)]))]
+            res2 += [email.gold]
 
     test_error = mse(res1, res2)
 
@@ -114,8 +119,8 @@ def test(trained_weights, test_set, reg_grad):
     # add results
     results = []
     for email in test_set:
-        res1 = sum([x * y for x, y in zip(trained_weights, email.features)])
-        results += [eval.Result(email.label, res1, 1)]
+        res1 = sum([x * y for x, y in zip(trained_weights, email.attributes)])
+        results += [eval.Result(email.gold, res1, 1)]
     return results
 
 
