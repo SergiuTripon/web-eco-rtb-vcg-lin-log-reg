@@ -12,30 +12,6 @@ def log_sigmoid(x):
 ########################################################################################################################
 
 
-def lin_reg_model(weights, features):
-    return sum([x * y for x, y in zip(weights, features)])
-
-
-def lin_reg_grad(reg_model, feature, label):
-    return (reg_model - label) * feature
-
-
-########################################################################################################################
-
-
-def log_reg_model(weights, features):
-    test1 = log_sigmoid(lin_reg_model(weights, features))
-    return test1
-
-
-def log_reg_grad(reg_model, feature, label):
-    test2 = reg_model * (1 - reg_model) * lin_reg_grad(reg_model, feature, label)
-    return test2
-
-
-########################################################################################################################
-
-
 def lin_sgd(weights, train_set, learning_rate):
 
     res3 = []
