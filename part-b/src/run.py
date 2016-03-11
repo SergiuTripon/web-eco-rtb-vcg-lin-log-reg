@@ -2,6 +2,7 @@
 # local python files
 import test
 import load
+import eval
 
 # python packages
 import random
@@ -10,7 +11,7 @@ import operator
 ########################################################################################################################
 
 
-def run(reg_model, reg_grad, grad_func, learning_rate, threshold):
+def run(reg_grad, learning_rate, threshold):
 
     data = load.load_file("input/spambase.data", load.data_format)
 
@@ -46,12 +47,34 @@ def run(reg_model, reg_grad, grad_func, learning_rate, threshold):
 
     random.shuffle(train_set)
 
-    print('> Testing count:', len(test_set))
-    print('> Training count:', len(train_set), '\n')
+    print('> Test set size:', len(test_set))
+    print('> Train set size:', len(train_set), '\n')
 
     print('##########################################################################\n')
-    print('> Running', grad_func.__name__, '\n')
-    test.test(test_set, train_set, reg_model, reg_grad, grad_func, learning_rate, threshold)
+    print('> Training', reg_grad.__name__, '\n')
+
+    # train
+    init_weights = 57 * [0.0]
+    trained_weights = test.train(init_weights, train_set, reg_grad, learning_rate, threshold)
+
+    # test
+    results = test.test(trained_weights, test_set, reg_grad)
+
+    # compute roc curve
+    true_false_rates = eval.roc_curve(results)
+    true_false_rates = true_false_rates[::-1]
+
+    # write roc data to file
+    with open('output/text/{}_{}_roc.txt'.format(reg_grad.__name__, learning_rate).lower(), mode='w') as fd:
+        for true_pos_rate, false_pos_rate in true_false_rates:
+            fd.write('{}, {}\n'.format(true_pos_rate, false_pos_rate))
+    print('> Saved ROC data to file', '\n')
+
+    # compute auc
+    auc = eval.comp_auc(true_false_rates)
+    print('> AUC:', auc, '\n')
+
+    print('##########################################################################')
 
 
 ########################################################################################################################

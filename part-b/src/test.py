@@ -17,25 +17,25 @@ def mse(list1, list2):
 ########################################################################################################################
 
 
-def train(weights, train_set, reg_model, reg_gradient, grad_func, learning_rate, threshold):
+def train(weights, train_set, reg_grad, learning_rate, threshold):
 
     print('> Learning rate:', learning_rate)
 
     # initialize the error
     res1 = []
     res2 = []
-    if grad_func.__name__[:3] == "lin":
+    if reg_grad.__name__[:3] == "lin":
         for email in train_set:
             res1 += [sum([x * y for x, y in zip(weights, email.features)])]
             res2 += [email.label]
-    elif grad_func.__name__[:3] == "log":
+    elif reg_grad.__name__[:3] == "log":
         for email in train_set:
             res1 += [proc.log_sigmoid(sum([x * y for x, y in zip(weights, email.features)]))]
             res2 += [email.label]
 
     start_error = mse(res1, res2)
 
-    print('> 1st Training MSE:', start_error, '\n')
+    print('> 1st Train MSE:', start_error, '\n')
     print('> Training started')
 
     epoch = 1
@@ -47,16 +47,16 @@ def train(weights, train_set, reg_model, reg_gradient, grad_func, learning_rate,
     while True:
 
         # calculate new weights
-        new_weights = grad_func(weights, train_set, reg_model, reg_gradient, learning_rate)
+        new_weights = reg_grad(weights, train_set, learning_rate)
 
         # calculate new error
         res1 = []
         res2 = []
-        if grad_func.__name__[:3] == "lin":
+        if reg_grad.__name__[:3] == "lin":
             for email in train_set:
                 res1 += [sum([x * y for x, y in zip(new_weights, email.features)])]
                 res2 += [email.label]
-        elif grad_func.__name__[:3] == "log":
+        elif reg_grad.__name__[:3] == "log":
             for email in train_set:
                 res1 += [proc.log_sigmoid(sum([x * y for x, y in zip(new_weights, email.features)]))]
                 res2 += [email.label]
@@ -65,7 +65,7 @@ def train(weights, train_set, reg_model, reg_gradient, grad_func, learning_rate,
 
         if new_error <= start_error:
             print('> Epoch:', epoch, '| Train MSE is converging:', new_error)
-            with open('output/text/{}_{}.txt'.format(grad_func.__name__, learning_rate), mode='a') as fd:
+            with open('output/text/{}_{}.txt'.format(reg_grad.__name__, learning_rate), mode='a') as fd:
                 fd.write('{},{}\n'.format(epoch, new_error))
             epoch1.append(epoch)
             new_error1.append(new_error)
@@ -80,6 +80,7 @@ def train(weights, train_set, reg_model, reg_gradient, grad_func, learning_rate,
 
             if new_error < threshold:
                 print('> Training finished\n'),
+                print('> Saved training progress to file\n'),
                 print('> Error vs. Threshold:', new_error, '<', threshold)
                 break
 
@@ -90,42 +91,32 @@ def train(weights, train_set, reg_model, reg_gradient, grad_func, learning_rate,
 ########################################################################################################################
 
 
-def test(test_set, train_set, reg_model, reg_grad, grad_func, learning_rate, threshold):
-
-    # train
-    init_weights = 57 * [0.0]
-    weights = train(init_weights, train_set, reg_model, reg_grad, grad_func, learning_rate, threshold)
+def test(trained_weights, test_set, reg_grad):
 
     # test
     res1 = []
     res2 = []
-    if grad_func.__name__[:3] == "lin":
+    if reg_grad.__name__[:3] == "lin":
         for email in test_set:
-            res1 += [sum([x * y for x, y in zip(weights, email.features)])]
+            res1 += [sum([x * y for x, y in zip(trained_weights, email.features)])]
             res2 += [email.label]
-    elif grad_func.__name__[:3] == "log":
+    elif reg_grad.__name__[:3] == "log":
         for email in test_set:
-            res1 += [proc.log_sigmoid(sum([x * y for x, y in zip(weights, email.features)]))]
+            res1 += [proc.log_sigmoid(sum([x * y for x, y in zip(trained_weights, email.features)]))]
             res2 += [email.label]
 
     test_error = mse(res1, res2)
 
-    print('\n> Test started')
-    print('> Testing MSE:', test_error)
-    print('> Test finished')
-    print('\n##########################################################################')
+    print('\n> Testing', reg_grad.__name__)
+    print('> Test MSE:', test_error)
+    print('> Testing finished', '\n')
 
-    # produce a result set
-    results = [eval.DataResult(data_point.label, reg_model(weights, data_point.features))
-               for data_point in test_set]
-
-    # output roc data
-    roc = eval.rocdata(results)
-    auc = eval.auc(roc)
-    with open('output/text/{}_{}_auc={}.txt'.format(grad_func.__name__, learning_rate, auc).lower(),
-              mode='w') as fd:
-        for fpr, tpr in roc:
-            fd.write('{}, {}\n'.format(fpr, tpr))
+    # add results
+    results = []
+    for email in test_set:
+        res1 = sum([x * y for x, y in zip(trained_weights, email.features)])
+        results += [eval.Result(email.label, res1, 1)]
+    return results
 
 
 ########################################################################################################################

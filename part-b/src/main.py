@@ -31,16 +31,16 @@ def main():
     # log_bgd_threshold = 0.1
 
     # linear regression with stochastic gradient descent
-    run.run(proc.lin_reg_model, proc.lin_reg_grad, proc.lin_sgd, learning_rate, lin_sgd_threshold)
+    run.run(proc.lin_sgd, learning_rate, lin_sgd_threshold)
 
     # linear regression with batch gradient descent
-    # launch(process.lin_reg_model, process.lin_reg_grad, process.lin_bgd, learning_rate, lin_bgd_threshold)
+    # run.run(proc.lin_bgd, learning_rate, lin_bgd_threshold)
 
     # logistic regression with stochastic gradient descent
-    # launch(process.log_reg_model, process.log_reg_grad, process.log_sgd, learning_rate, log_sgd_threshold)
+    # run.run(proc.log_sgd, learning_rate, log_sgd_threshold)
 
     # logistic regression with batch gradient descent
-    # launch(process.log_reg_model, process.log_reg_grad, process.log_bgd, learning_rate, log_bgd_threshold)
+    # run.run(proc.log_bgd, learning_rate, log_bgd_threshold)
 
 
 ########################################################################################################################
