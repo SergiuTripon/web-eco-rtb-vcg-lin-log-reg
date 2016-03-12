@@ -2,7 +2,7 @@
 ########################################################################################################################
 
 
-# Email object
+# email object
 class Email(object):
     def __init__(self, attributes, gold):
 
@@ -20,9 +20,9 @@ class Email(object):
 def add_data(token, token_format):
     # strip token
     token = token.strip()
-    # if token isn't an instance of its matching token format
+    # if token isn't an instance of its matching token_format
     if not isinstance(token, token_format):
-        # change token's format to matching token format
+        # change token's type to matching token_format
         token = token_format(token)
         # return token
         return token
@@ -67,7 +67,7 @@ data_format = []
 # 1 nominal {0,1} class attribute of type spam
 
 # looking at the data, I discovered that the first 48 elements of each line were not of a uniform data type
-# e.g. some were int and some were float which can cause problem when doing mathematical calculations
+# e.g. some were int and some were float which can cause problems in various ways
 # therefore, I decided to convert them to float
 # the same discovery occurred for the following 6 and 1 elements after the initial 48
 # only the last 3 elements had a uniform data type which was int

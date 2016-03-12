@@ -9,12 +9,14 @@ import os
 ########################################################################################################################
 
 
-# compute mean squared error
+# computes mean squared error
 def mse(list1, list2):
-    return (sum([(x - y) ** 2 for x, y in zip(list1, list2)])) / float(len(list1))
+    mean_squared_error = (sum([(x - y) ** 2 for x, y in zip(list1, list2)])) / float(len(list1))
+    return mean_squared_error
 
 
 ########################################################################################################################
+
 
 # trains the submitted regression with the submitted gradient descent
 def train(train_set, reg_grad, learning_rate, threshold):
@@ -47,7 +49,7 @@ def train(train_set, reg_grad, learning_rate, threshold):
             # add every gold to golds list
             golds += [email.gold]
 
-    # calculate the first mean squared error
+    # compute the first mean squared error
     # used to compare with the next mean squared error
     # if next error is larger than the first error, gradient descent is diverging
     # if next error is smaller than the first error, gradient descent is converging
@@ -63,7 +65,7 @@ def train(train_set, reg_grad, learning_rate, threshold):
     os.popen('rm -f ./output/text/*')
 
     # infinite while loop
-    while True:
+    while epoch < 501:
 
         # compute next weights
         next_weights = reg_grad(weights, train_set, learning_rate)
@@ -89,17 +91,17 @@ def train(train_set, reg_grad, learning_rate, threshold):
                 # add every gold to golds list
                 golds += [email.gold]
 
-        # compute next mse
+        # compute next_mse
         next_mse = mse(updated_weights, golds)
 
-        # if next mse is smaller or equal to first mse
+        # if next_mse is smaller or equal to first_mse and next_mse isn't smaller than the threshold
         # it means gradient descent is converging
         if next_mse <= first_mse and not (next_mse < threshold):
 
-            # update first mse as the next mse
-            # we are always checking if the next mse is smaller than the previous one
+            # update first_mse as the next_mse
+            # we are always checking if the next_mse is smaller than the previous one
             first_mse = next_mse
-            # update weights as the next weights
+            # update weights as the next_weights
             weights = next_weights
 
             # do some printing to show progress
@@ -110,7 +112,7 @@ def train(train_set, reg_grad, learning_rate, threshold):
                 file.write('{},{}\n'.format(epoch, next_mse))
             # increment epoch
             epoch += 1
-        # else if next mse is smaller or equal to first mse and next mse is smaller than the threshold
+        # else if next_mse is smaller or equal to first_mse and next_mse is smaller than the threshold
         elif next_mse <= first_mse and next_mse < threshold:
             # do some printing to show progress
             print('> Training finished\n'),
@@ -118,7 +120,8 @@ def train(train_set, reg_grad, learning_rate, threshold):
             print('> Error vs. Threshold:', next_mse, '<', threshold)
             # break the while loop
             break
-        # if next mse isn't smaller or equal to first mse
+        # if next_mse isn't smaller or equal to first_mse
+        # it means gradient descent is diverging
         else:
             # do some printing to show progress
             print('> Epoch:', epoch, '| Train MSE is diverging:', next_mse)
@@ -156,7 +159,7 @@ def test(trained_weights, test_set, reg_grad):
             # add every gold to golds list
             golds += [email.gold]
 
-    # compute test mse
+    # compute test_mse
     test_mse = mse(updated_weights, golds)
 
     # do some printing to show progress
@@ -170,7 +173,7 @@ def test(trained_weights, test_set, reg_grad):
     for email in test_set:
         # compute updated weight
         updated_weight = sum([x * y for x, y in zip(trained_weights, email.attributes)])
-        # add every email's gold, updated weight, prediction to results list
+        # add every email's updated_weight and gold to results list
         results += [eval.Result(updated_weight, email.gold)]
     # return results
     return results

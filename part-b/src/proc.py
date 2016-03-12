@@ -7,7 +7,8 @@ from math import e
 
 # computes logistic sigmoid
 def log_sigmoid(x):
-    return 1 / (1 + (e ** -x))
+    log_sig = 1 / (1 + (e ** -x))
+    return log_sig
 
 
 ########################################################################################################################
@@ -26,7 +27,7 @@ def lin_sgd(weights, train_set, learning_rate):
         gradient = [(updated_weights - email.gold) * f for f in email.attributes]
         # compute sgd
         sgd = [w - learning_rate * g for w, g in zip(weights, gradient)]
-        # update weights to sgd
+        # update weights as sgd
         weights = sgd
     # return sgd
     return sgd
@@ -37,11 +38,11 @@ def lin_sgd(weights, train_set, learning_rate):
 # computes linear regression with batch gradient descent
 def lin_bgd(weights, train_set, learning_rate):
 
-    # list to hold gradient sum
+    # list to hold gradients' sum
     gradients_sum = []
-    # for loop running 57 times
+    # for loop running 57 times, the number of weights
     for i in range(len(weights)):
-        # list to hold all gradients
+        # list to hold gradients
         gradients = []
         # for every email in train set
         for email in train_set:
@@ -51,7 +52,7 @@ def lin_bgd(weights, train_set, learning_rate):
             gradient = (updated_weights - email.gold) * email.attributes[i]
             # add every gradient to gradients list
             gradients += [gradient]
-        # compute sum of gradients list and add it to gradients sum list
+        # compute sum of gradients list and add it to gradients_sum list
         gradients_sum += [sum(gradients)]
     # compute bgd
     bgd = [w - learning_rate * g for w, g in zip(weights, gradients_sum)]
@@ -77,7 +78,7 @@ def log_sgd(weights, train_set, learning_rate):
         log_grad = [updated_weights * (1 - updated_weights) * x for x in lin_grad]
         # compute sgd
         sgd = [x - learning_rate * g for x, g in zip(weights, log_grad)]
-        # update weights to sgd
+        # update weights as sgd
         weights = sgd
     # return sgd
     return sgd
@@ -89,11 +90,11 @@ def log_sgd(weights, train_set, learning_rate):
 # computes logistic regression with batch gradient descent
 def log_bgd(weights, train_set, learning_rate):
 
-    # list to hold gradient sum
+    # list to hold gradients' sum
     gradients_sum = []
-    # for loop running 57 times
+    # for loop running 57 times, the number of weights
     for i in range(len(weights)):
-        # list to hold all gradients
+        # list to hold gradients
         gradients = []
         # for every email in train set
         for email in train_set:
@@ -105,7 +106,7 @@ def log_bgd(weights, train_set, learning_rate):
             log_grad = updated_weights * (1 - updated_weights) * lin_grad
             # add every gradient to gradients list
             gradients += [log_grad]
-        # compute sum of gradients list and add it to gradients sum list
+        # compute sum of gradients list and add it to gradients_sum list
         gradients_sum += [sum(gradients)]
     # compute bgd
     bgd = [w - learning_rate * g for w, g in zip(weights, gradients_sum)]

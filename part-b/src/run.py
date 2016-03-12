@@ -27,7 +27,7 @@ def run(reg_grad, learning_rate, threshold):
     # load data
     data = load.load_file("input/spambase.data", load.data_format)
 
-    # computes z-score for an attribute
+    # computes z-score for an email attribute
     def z_score(attribute):
         # compute mean
         mu = sum(attribute) / float(len(attribute))
@@ -42,12 +42,12 @@ def run(reg_grad, learning_rate, threshold):
     def precondition(data_set):
         # get attributes for all email in data set
         attributes = [email.attributes for email in data_set]
-        # for each attribute, calculate its z-score
+        # for every attribute, calculate its z-score
         attributes_zscore = [z_score(attribute) for attribute in attributes]
 
-        # for each email in the data set and attribute in z-score preconditioned attributes
+        # for every email in the data set and attribute in z-score preconditioned attributes
         for email, attributes in zip(data_set, attributes_zscore):
-            # update each email's attributes with its z-score preconditioned attributes
+            # update every email's attributes with its z-score preconditioned attributes
             email.attributes = attributes
 
     # precondition the data
@@ -68,7 +68,7 @@ def run(reg_grad, learning_rate, threshold):
         # e.g. 1 + 1 mod 10 = 2 mod 10 = 2
         # e.g. 9 + 1 mod 10 = 10 mod 10 = 0
         # therefore, emails will be distributed equally between folds
-        # with the exception of the first email which was added to fold 0 automatically
+        # with the exception of the first email which was added to fold 0 automatically, prior to updating k
         # therefore fold 0 consists of 461 emails
         # the other folds consist of 460 emails each
         k = operator.mod((k + 1), 10)
@@ -78,11 +78,15 @@ def run(reg_grad, learning_rate, threshold):
 
     # define train set as all the other folds except the first one
     # as the first one will be used as the test set
+    # append - appends a separate element to the list e.g. [[fold1], [fold2]]
+    # extend - extends the list by adding elements to the list with all the other elements e.g. [fold1, fold2]
     train_set = []
+    # for every fold in folds
     for fold in folds[1:]:
+        # add fold to the train_set
         train_set.extend(fold)
 
-    # randomize the elements in the training set
+    # randomize the elements of the training set
     random.shuffle(train_set)
 
     # do some printing to show progress
@@ -90,16 +94,14 @@ def run(reg_grad, learning_rate, threshold):
     print('> Train set size:', len(train_set), '\n')
     print('##########################################################################\n')
 
-    # train and return the output in the trained_weights variable
+    # train and return the output in trained_weights
     trained_weights = test.train(train_set, reg_grad, learning_rate, threshold)
 
-    # test and return the output in the results variable
+    # test and return the output in results
     results = test.test(trained_weights, test_set, reg_grad)
 
     # compute roc curve
     true_false_rates = eval.roc_curve(results, reg_grad, learning_rate)
-    # reverse list holding the true false rates before sending it to auc function
-    true_false_rates = true_false_rates[::-1]
 
     # compute auc
     eval.comp_auc(true_false_rates)
