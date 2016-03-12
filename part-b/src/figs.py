@@ -9,16 +9,23 @@ from matplotlib import patches
 ########################################################################################################################
 
 
-def load_result_file(result_file):
-    data1 = []
-    data2 = []
-    with open(result_file, mode='r') as result_file:
-        for line in result_file:
-            tokens = line.split(",")
-            data1.append(tokens[0])
-            data2.append(tokens[1])
+class FileResult(object):
 
-    data = [data1, data2]
+    def __init__(self, epoch, error):
+
+        # result weight
+        self.epoch = epoch
+
+        # result gold
+        self.error = error
+
+
+def load_result_file(file):
+    data = []
+    with open(file, mode='r') as file:
+        for line in file:
+            tokens = line.split(",")
+            data += [FileResult(tokens[0], tokens[1])]
 
     return data
 
@@ -52,8 +59,16 @@ def main():
 
     fig = pyplot.figure()
 
+    epochs = []
+    for epoch in data:
+        epochs.append(int(epoch.epoch))
+
+    errors = []
+    for error in data:
+        errors.append(float(error.error))
+
     # plots data
-    pyplot.scatter(data[0], data[1], color="#333333")
+    pyplot.scatter(epochs, errors, color="#333333")
 
     # adds grid
     pyplot.grid(True)

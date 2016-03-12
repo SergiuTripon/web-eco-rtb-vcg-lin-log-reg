@@ -16,111 +16,163 @@ def mse(list1, list2):
 
 ########################################################################################################################
 
-
+# trains the submitted regression with the submitted gradient descent
 def train(train_set, reg_grad, learning_rate, threshold):
 
+    # do some printing to show progress
     print('> Training', reg_grad.__name__, '\n')
-
     print('> Learning rate:', learning_rate)
 
-    # initialize the error
-    
+    # set weights start value to 0
     weights = 57 * [0.0]
-    
-    res1 = []
-    res2 = []
+
+    # list to hold first weights
+    first_weights = []
+    # list to hold the golds
+    golds = []
+    # if the first 3 letters in the regression gradient function submitted are "lin"
     if reg_grad.__name__[:3] == "lin":
+        # for every email in the train set
         for email in train_set:
-            res1 += [sum([x * y for x, y in zip(weights, email.attributes)])]
-            res2 += [email.gold]
+            # compute first weights
+            first_weights += [sum([x * y for x, y in zip(weights, email.attributes)])]
+            # add every gold to golds list
+            golds += [email.gold]
+    # if the first 3 letters in the regression gradient function submitted are "lon"
     elif reg_grad.__name__[:3] == "log":
+        # for every email in the train set
         for email in train_set:
-            res1 += [proc.log_sigmoid(sum([x * y for x, y in zip(weights, email.attributes)]))]
-            res2 += [email.gold]
+            # compute first weights using logistic sigmoid
+            first_weights += [proc.log_sigmoid(sum([x * y for x, y in zip(weights, email.attributes)]))]
+            # add every gold to golds list
+            golds += [email.gold]
 
-    start_error = mse(res1, res2)
+    # calculate the first mean squared error
+    # used to compare with the next mean squared error
+    # if next error is larger than the first error, gradient descent is diverging
+    # if next error is smaller than the first error, gradient descent is converging
+    first_mse = mse(first_weights, golds)
 
-    print('> 1st Train MSE:', start_error, '\n')
+    # do some printing to show progress
     print('> Training started')
 
+    # set epoch start value to 1
     epoch = 1
 
-    # loop
-    epoch1 = []
-    new_error1 = []
+    # clear contents of output/text folder
     os.popen('rm -f ./output/text/*')
+
+    # infinite while loop
     while True:
 
-        # calculate new weights
-        new_weights = reg_grad(weights, train_set, learning_rate)
+        # compute next weights
+        next_weights = reg_grad(weights, train_set, learning_rate)
 
-        # calculate new error
-        res1 = []
-        res2 = []
+        # list to hold updated weights
+        updated_weights = []
+        # list to hold the golds
+        golds = []
+        # if the first 3 letters in the regression gradient function submitted are "lin"
         if reg_grad.__name__[:3] == "lin":
+            # for every email in the train set
             for email in train_set:
-                res1 += [sum([x * y for x, y in zip(new_weights, email.attributes)])]
-                res2 += [email.gold]
+                # compute updated weights
+                updated_weights += [sum([x * y for x, y in zip(next_weights, email.attributes)])]
+                # add every gold to golds list
+                golds += [email.gold]
+        # if the first 3 letters in the regression gradient function submitted are "lon"
         elif reg_grad.__name__[:3] == "log":
+            # for every email in the train set
             for email in train_set:
-                res1 += [proc.log_sigmoid(sum([x * y for x, y in zip(new_weights, email.attributes)]))]
-                res2 += [email.gold]
+                # compute updated weights using logistic sigmoid
+                updated_weights += [proc.log_sigmoid(sum([x * y for x, y in zip(next_weights, email.attributes)]))]
+                # add every gold to golds list
+                golds += [email.gold]
 
-        new_error = mse(res1, res2)
+        # compute next mse
+        next_mse = mse(updated_weights, golds)
 
-        if new_error <= start_error:
-            print('> Epoch:', epoch, '| Train MSE is converging:', new_error)
+        # if next mse is smaller or equal to first mse
+        # it means gradient descent is converging
+        if next_mse <= first_mse and not (next_mse < threshold):
+
+            # update first mse as the next mse
+            # we are always checking if the next mse is smaller than the previous one
+            first_mse = next_mse
+            # update weights as the next weights
+            weights = next_weights
+
+            # do some printing to show progress
+            print('> Epoch:', epoch, '| Train MSE is converging:', next_mse)
+
+            # write current epoch and mse to file
             with open('output/text/{}_{}.txt'.format(reg_grad.__name__, learning_rate), mode='a') as file:
-                file.write('{},{}\n'.format(epoch, new_error))
-            epoch1.append(epoch)
-            new_error1.append(new_error)
+                file.write('{},{}\n'.format(epoch, next_mse))
+            # increment epoch
             epoch += 1
+        # else if next mse is smaller or equal to first mse and next mse is smaller than the threshold
+        elif next_mse <= first_mse and next_mse < threshold:
+            # do some printing to show progress
+            print('> Training finished\n'),
+            print('> Saved training progress to file\n'),
+            print('> Error vs. Threshold:', next_mse, '<', threshold)
+            # break the while loop
+            break
+        # if next mse isn't smaller or equal to first mse
         else:
-            print('> Epoch:', epoch, '| Train MSE is diverging:', new_error)
+            # do some printing to show progress
+            print('> Epoch:', epoch, '| Train MSE is diverging:', next_mse)
+            # increment epoch
             epoch += 1
 
-        if new_error <= start_error:
-            start_error = new_error
-            weights = new_weights
-
-            if new_error < threshold:
-                print('> Training finished\n'),
-                print('> Saved training progress to file\n'),
-                print('> Error vs. Threshold:', new_error, '<', threshold)
-                break
-
-    # done
+    # return weights
     return weights
 
 
 ########################################################################################################################
 
 
+# tests the submitted regression with the submitted gradient descent
 def test(trained_weights, test_set, reg_grad):
 
-    # test
-    res1 = []
-    res2 = []
+    # list to hold updated weights
+    updated_weights = []
+    # list to hold the golds
+    golds = []
+    # if the first 3 letters in the regression gradient function submitted are "lin"
     if reg_grad.__name__[:3] == "lin":
+        # for every email in the train set
         for email in test_set:
-            res1 += [sum([x * y for x, y in zip(trained_weights, email.attributes)])]
-            res2 += [email.gold]
+            # compute updated weights
+            updated_weights += [sum([x * y for x, y in zip(trained_weights, email.attributes)])]
+            # add every gold to golds list
+            golds += [email.gold]
+    # if the first 3 letters in the regression gradient function submitted are "lon"
     elif reg_grad.__name__[:3] == "log":
+        # for every email in the train set
         for email in test_set:
-            res1 += [proc.log_sigmoid(sum([x * y for x, y in zip(trained_weights, email.attributes)]))]
-            res2 += [email.gold]
+            # compute updated weights using logistic sigmoid
+            updated_weights += [proc.log_sigmoid(sum([x * y for x, y in zip(trained_weights, email.attributes)]))]
+            # add every gold to golds list
+            golds += [email.gold]
 
-    test_error = mse(res1, res2)
+    # compute test mse
+    test_mse = mse(updated_weights, golds)
 
+    # do some printing to show progress
     print('\n> Testing', reg_grad.__name__)
-    print('> Test MSE:', test_error)
+    print('> Test MSE:', test_mse)
     print('> Testing finished', '\n')
 
-    # add results
+    # list to hold results
     results = []
+    # for every email in the test set
     for email in test_set:
-        res1 = sum([x * y for x, y in zip(trained_weights, email.attributes)])
-        results += [eval.Result(email.gold, res1, 1)]
+        # compute updated weight
+        updated_weight = sum([x * y for x, y in zip(trained_weights, email.attributes)])
+        # add every email's gold, updated weight, prediction to results list
+        results += [eval.Result(updated_weight, email.gold)]
+    # return results
     return results
 
 

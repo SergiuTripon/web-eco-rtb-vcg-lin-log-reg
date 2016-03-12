@@ -27,25 +27,25 @@ def main():
     # the four learners
     lin_sgd_threshold = 0.18
     # lin_bgd_threshold = 0.18
-    # log_sgd_threshold = 0.18
+    # log_sgd_threshold = 0.1
     # log_bgd_threshold = 0.1
 
-    # linear regression with stochastic gradient descent
+    # run linear regression with stochastic gradient descent
     run.run(proc.lin_sgd, learning_rate, lin_sgd_threshold)
 
-    # linear regression with batch gradient descent
+    # run linear regression with batch gradient descent
     # run.run(proc.lin_bgd, learning_rate, lin_bgd_threshold)
 
-    # logistic regression with stochastic gradient descent
+    # run logistic regression with stochastic gradient descent
     # run.run(proc.log_sgd, learning_rate, log_sgd_threshold)
 
-    # logistic regression with batch gradient descent
+    # run logistic regression with batch gradient descent
     # run.run(proc.log_bgd, learning_rate, log_bgd_threshold)
 
 
 ########################################################################################################################
 
-
+# runs main class
 if __name__ == '__main__':
     main()
 
