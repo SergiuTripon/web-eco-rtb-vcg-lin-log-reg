@@ -27,7 +27,7 @@ def main():
     # learning_rate = 0.0001
 
     # the four learners
-    # lin_sgd_threshold = 0.1
+    lin_sgd_threshold = 0.1
     # lin_bgd_threshold = 0.1
     # log_sgd_threshold = 0.1
     # log_bgd_threshold = 0.1
