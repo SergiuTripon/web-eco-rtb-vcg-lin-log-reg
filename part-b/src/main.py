@@ -12,9 +12,10 @@ def main():
     # learning rates
 
     # lin_sgd
+    learning_rate = 0.00001
     # learning_rate = 0.0001
     # learning_rate = 0.001
-    learning_rate = 0.01
+    # learning_rate = 0.01
 
     # lin_bgd
     # learning_rate = 0.000001
@@ -26,7 +27,7 @@ def main():
     # learning_rate = 0.0001
 
     # the four learners
-    lin_sgd_threshold = 0.1
+    # lin_sgd_threshold = 0.1
     # lin_bgd_threshold = 0.1
     # log_sgd_threshold = 0.1
     # log_bgd_threshold = 0.1

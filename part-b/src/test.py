@@ -23,7 +23,7 @@ def train(train_set, reg_grad, learning_rate, threshold):
 
     # do some printing to show progress
     print('> Training', reg_grad.__name__, '\n')
-    print('> Learning rate:', learning_rate)
+    print('> Learning rate:', learning_rate, '\n')
 
     # set weights start value to 0
     weights = 57 * [0.0]
