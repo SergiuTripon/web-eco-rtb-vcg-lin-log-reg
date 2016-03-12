@@ -65,7 +65,7 @@ def train(train_set, reg_grad, learning_rate, threshold):
     os.popen('rm -f ./output/text/*')
 
     # infinite while loop
-    while epoch < 501:
+    while epoch < 51:
 
         # compute next weights
         next_weights = reg_grad(weights, train_set, learning_rate)
@@ -165,7 +165,7 @@ def test(trained_weights, test_set, reg_grad):
     # do some printing to show progress
     print('\n> Testing', reg_grad.__name__)
     print('> Test MSE:', test_mse)
-    print('> Testing finished', '\n')
+    print('> Testing finished\n')
 
     # list to hold results
     results = []

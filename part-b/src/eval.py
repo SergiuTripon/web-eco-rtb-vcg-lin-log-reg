@@ -97,7 +97,7 @@ def comp_auc(true_false_rates):
     # compute auc = 1.0 / 2 * auc_sum
     auc = 1.0 / 2 * auc_sum
     # do some printing to show progress
-    print('> AUC:', auc, '\n')
+    print('> AUC:', auc)
 
 
 ########################################################################################################################
