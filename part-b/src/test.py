@@ -65,7 +65,7 @@ def train(train_set, reg_grad, learning_rate, threshold):
     os.popen('rm -f ./output/text/*')
 
     # infinite while loop
-    while epoch < 51:
+    while epoch < 501:
 
         # compute next weights
         next_weights = reg_grad(weights, train_set, learning_rate)

@@ -14,7 +14,7 @@ def main():
     # lin_sgd
     # learning_rate = 0.00001
     # learning_rate = 0.0001
-    # learning_rate = 0.001
+    learning_rate = 0.001
     # learning_rate = 0.01
 
     # lin_bgd
@@ -32,7 +32,7 @@ def main():
     # learning_rate = 0.1
 
     # log_bgd
-    learning_rate = 0.0000001
+    # learning_rate = 0.0000001
     # learning_rate = 0.000001
     # learning_rate = 0.00001
     # learning_rate = 0.0001
@@ -44,7 +44,7 @@ def main():
     threshold = 0.1
 
     # run linear regression with stochastic gradient descent
-    # run.run(proc.lin_sgd, learning_rate, threshold)
+    run.run(proc.lin_sgd, learning_rate, threshold)
 
     # run linear regression with batch gradient descent
     # run.run(proc.lin_bgd, learning_rate, threshold)
@@ -53,7 +53,7 @@ def main():
     # run.run(proc.log_sgd, learning_rate, threshold)
 
     # run logistic regression with batch gradient descent
-    run.run(proc.log_bgd, learning_rate, threshold)
+    # run.run(proc.log_bgd, learning_rate, threshold)
 
 
 ########################################################################################################################
