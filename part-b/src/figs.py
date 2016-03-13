@@ -3,8 +3,6 @@
 import os
 import plotly.plotly as py
 import plotly.graph_objs as go
-from matplotlib import pyplot
-from matplotlib import patches
 
 ########################################################################################################################
 
@@ -80,25 +78,25 @@ def load_result_file(result_file):
 def plot_iter(result_file, plot_title):
 
     # load data
-    data = load_result_file("output/save/log_sgd/" + result_file + ".txt")
+    data = load_result_file("output/save/lin_sgd/" + result_file + ".txt")
 
     epochs = []
     for epoch in data:
         epochs.append(int(epoch.epoch.strip()))
 
     error1 = []
-    error2 = []
-    error3 = []
-    error4 = []
     for error in data:
         error1.append(float(error.error1.strip()))
 
+    error2 = []
     for error in data:
         error2.append(float(error.error2.strip()))
 
+    error3 = []
     for error in data:
         error3.append(float(error.error3.strip()))
 
+    error4 = []
     for error in data:
         error4.append(float(error.error4.strip()))
 
@@ -109,32 +107,44 @@ def plot_iter(result_file, plot_title):
     trace1 = go.Scatter(
         x=epochs,
         y=error1,
-        name="Learning rate: 0.1",
-        mode="lines"
+        name="Learning rate: 0.01",
+        mode="lines",
+        line=dict(
+            color='red'
+        )
     )
 
     # setup trace 2
     trace2 = go.Scatter(
         x=epochs,
         y=error2,
-        name="Learning rate: 0.01",
-        mode="lines"
+        name="Learning rate: 0.001",
+        mode="lines",
+        line=dict(
+            color='blue'
+        )
     )
 
     # setup trace 3
     trace3 = go.Scatter(
         x=epochs,
         y=error3,
-        name="Learning rate: 0.001",
-        mode="lines"
+        name="Learning rate: 0.0001",
+        mode="lines",
+        line=dict(
+            color='green'
+        )
     )
 
     # setup trace 4
     trace4 = go.Scatter(
         x=epochs,
         y=error4,
-        name="Learning rate: 0.0001",
-        mode="lines"
+        name="Learning rate: 0.00001",
+        mode="lines",
+        line=dict(
+            color='orange'
+        )
     )
 
     # setup data
@@ -154,7 +164,7 @@ def plot_iter(result_file, plot_title):
             showline=True
         ),
         legend=dict(
-            x=0.68,
+            x=0.65,
             y=1,
             borderwidth=1
         )
@@ -223,7 +233,10 @@ def plot_roc(result_file, plot_title):
         x=false_pos_rates1,
         y=true_pos_rates1,
         name="Learning rate: 0.01",
-        mode="lines"
+        mode="lines",
+        line=dict(
+            color='red'
+        )
     )
 
     # setup trace 2
@@ -231,7 +244,10 @@ def plot_roc(result_file, plot_title):
         x=false_pos_rates2,
         y=true_pos_rates2,
         name="Learning rate: 0.001",
-        mode="lines"
+        mode="lines",
+        line=dict(
+            color='blue'
+        )
     )
 
     # setup trace 3
@@ -239,7 +255,10 @@ def plot_roc(result_file, plot_title):
         x=false_pos_rates3,
         y=true_pos_rates3,
         name="Learning rate: 0.0001",
-        mode="lines"
+        mode="lines",
+        line=dict(
+            color='green'
+        )
     )
 
     # setup trace 4
@@ -247,7 +266,10 @@ def plot_roc(result_file, plot_title):
         x=false_pos_rates4,
         y=true_pos_rates4,
         name="Learning rate: 0.00001",
-        mode="lines"
+        mode="lines",
+        line=dict(
+            color='orange'
+        )
     )
 
     # setup data
@@ -268,7 +290,7 @@ def plot_roc(result_file, plot_title):
             zeroline=False
         ),
         legend=dict(
-            x=0.68,
+            x=0.65,
             y=0.1,
             borderwidth=1
         )
@@ -290,20 +312,20 @@ def main():
 
     # iteration
     # lin_sgd
-    # plot_title = "Linear Regression with Stochastic Gradient Descent"
-    # result_file = "lin_sgd_all"
+    plot_title = "Linear Regression with Stochastic Gradient Descent"
+    result_file = "lin_sgd_all"
 
     # lin_bgd
     # plot_title = "Linear Regression with Batch Gradient Descent"
-    # result_filename = "lin_bgd_0.001"
+    # result_file = "lin_bgd_roc_all"
 
     # log_sgd
-    plot_title = "Logistic Regression with Stochastic Gradient Descent"
-    result_file = "log_sgd_all"
+    # plot_title = "Logistic Regression with Stochastic Gradient Descent"
+    # result_file = "log_sgd_all"
 
     # log_bgd
     # plot_title = "Logistic Regression with Batch Gradient Descent"
-    # result_filename = "log_bgd_0.001"
+    # result_file = "log_bgd_all"
 
     # roc
     # lin_sgd_roc
@@ -312,15 +334,15 @@ def main():
 
     # lin_bgd_roc
     # plot_title = "Linear Regression with Batch Gradient Descent - ROC Curve"
-    # result_file = "lin_bgd_0.001_roc"
+    # result_file = "lin_bgd_all_roc"
 
     # log_sgd_roc
     # plot_title = "Logistic Regression with Stochastic Gradient Descent - ROC Curve"
-    # result_file = "log_sgd_0.001_roc"
+    # result_file = "log_sgd_all_roc"
 
     # log_bgd_roc
     # plot_title = "Logistic Regression with Batch Gradient Descent - ROC Curve"
-    # result_file = "log_bgd_0.001_roc"
+    # result_file = "log_bgd_all_roc"
 
     plot_iter(result_file, plot_title)
     # plot_roc(result_file, plot_title)
