@@ -34,12 +34,12 @@ class ROCFig(object):
 ########################################################################################################################
 
 
-def load_result_file(result_file):
+def load_output_file(output_file):
     data = []
-    with open(result_file, mode='r') as file:
+    with open(output_file, mode='r') as file:
         for line in file:
             tokens = line.split(",")
-            if "roc" in result_file:
+            if "roc" in output_file:
                 data += [ROCFig(tokens[0], tokens[1])]
             else:
                 data += [IterFig(tokens[0], tokens[1])]
@@ -50,10 +50,10 @@ def load_result_file(result_file):
 ########################################################################################################################
 
 
-def plot_iter(plot_title, result_file, figure_file):
+def plot_iter(plot_title, output_file, figure_file):
 
     # load data
-    data = load_result_file(result_file)
+    data = load_output_file(output_file)
 
     epochs = []
     for epoch in data:
@@ -67,7 +67,7 @@ def plot_iter(plot_title, result_file, figure_file):
     trace1 = go.Scatter(
         x=epochs,
         y=error1,
-        name="Learning rate: 0.0001",
+        name="Learning rate: 0.000001",
         mode="lines",
         line=dict(
             color='red'
@@ -110,10 +110,10 @@ def plot_iter(plot_title, result_file, figure_file):
 ########################################################################################################################
 
 
-def plot_roc(plot_title, result_file, figure_file):
+def plot_roc(plot_title, output_file, figure_file):
 
     # load data
-    data = load_result_file(result_file)
+    data = load_output_file(output_file)
 
     #
     true_pos_rates1 = []
@@ -128,7 +128,7 @@ def plot_roc(plot_title, result_file, figure_file):
     trace1 = go.Scatter(
         x=false_pos_rates1,
         y=true_pos_rates1,
-        name="Learning rate: 0.0001",
+        name="Learning rate: 0.000001",
         mode="lines",
         line=dict(
             color='red'
@@ -176,13 +176,13 @@ def main():
     # iteration
 
     # lin_bgd
-    # plot_title = "Linear Regression with Batch Gradient Descent"
-    # result_file = "output/save/lin_bgd/lin_bgd_0.000001_2000.txt"
-    # figure_file = "output/figs/lin_bgd/lin_bgd_0.000001_2000.png"
+    plot_title = "Linear Regression with Batch Gradient Descent"
+    output_file = "output/save/lin_bgd/lin_bgd_0.000001_2000.txt"
+    figure_file = "output/figs/lin_bgd/lin_bgd_0.000001_2000.png"
 
     # log_bgd
     # plot_title = "Logistic Regression with Batch Gradient Descent"
-    # result_file = "output/save/log_bgd/log_bgd_0.0001_2000.txt"
+    # output_file = "output/save/log_bgd/log_bgd_0.0001_2000.txt"
     # figure_file = "output/figs/log_bgd/log_bgd_0.0001_2000.png"
 
     #################################################################################
@@ -190,16 +190,16 @@ def main():
     # roc
     # lin_bgd_roc
     # plot_title = "Linear Regression with Batch Gradient Descent - ROC Curve"
-    # result_file = "output/save/lin_bgd/lin_bgd_0.000001_2000_roc.txt"
+    # output_file = "output/save/lin_bgd/lin_bgd_0.000001_2000_roc.txt"
     # figure_file = "output/figs/lin_bgd/lin_bgd_0.000001_2000_roc.png"
 
     # log_bgd_roc
-    plot_title = "Logistic Regression with Batch Gradient Descent - ROC Curve"
-    result_file = "output/save/log_bgd/log_bgd_0.0001_2000_roc.txt"
-    figure_file = "output/figs/log_bgd/log_bgd_0.0001_2000_roc.png"
+    # plot_title = "Logistic Regression with Batch Gradient Descent - ROC Curve"
+    # output_file = "output/save/log_bgd/log_bgd_0.0001_2000_roc.txt"
+    # figure_file = "output/figs/log_bgd/log_bgd_0.0001_2000_roc.png"
 
-    # plot_iter(plot_title, result_file, figure_file)
-    plot_roc(plot_title, result_file, figure_file)
+    plot_iter(plot_title, output_file, figure_file)
+    # plot_roc(plot_title, output_file, figure_file)
 
 
 ########################################################################################################################

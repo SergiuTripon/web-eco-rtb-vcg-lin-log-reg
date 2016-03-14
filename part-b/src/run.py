@@ -97,11 +97,11 @@ def run(reg_grad, learning_rate, threshold):
     # train and return the output in trained_weights
     trained_weights = test.train(train_set, reg_grad, learning_rate, threshold)
 
-    # test and return the output in results
-    results = test.test(trained_weights, test_set, reg_grad)
+    # test and return the output in outputs
+    outputs = test.test(trained_weights, test_set, reg_grad)
 
     # compute roc curve
-    true_false_rates = eval.roc_curve(results, reg_grad, learning_rate)
+    true_false_rates = eval.roc_curve(outputs, reg_grad, learning_rate)
 
     # compute auc
     eval.comp_auc(true_false_rates)

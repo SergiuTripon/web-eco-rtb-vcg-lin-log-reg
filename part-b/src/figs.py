@@ -59,12 +59,12 @@ class ROCFig(object):
 ########################################################################################################################
 
 
-def load_result_file(result_file):
+def load_output_file(output_file):
     data = []
-    with open(result_file, mode='r') as file:
+    with open(output_file, mode='r') as file:
         for line in file:
             tokens = line.split(",")
-            if "roc" in result_file:
+            if "roc" in output_file:
                 data += [ROCFig(tokens[0], tokens[1], tokens[2], tokens[3], tokens[4], tokens[5], tokens[6], tokens[7])]
             else:
                 data += [IterFig(tokens[0], tokens[1], tokens[2], tokens[3], tokens[4])]
@@ -75,10 +75,10 @@ def load_result_file(result_file):
 ########################################################################################################################
 
 
-def plot_iter(plot_title, result_file, figure_file):
+def plot_iter(plot_title, output_file, figure_file):
 
     # load data
-    data = load_result_file(result_file)
+    data = load_output_file(output_file)
 
     epochs = []
     for epoch in data:
@@ -104,7 +104,7 @@ def plot_iter(plot_title, result_file, figure_file):
     trace1 = go.Scatter(
         x=epochs,
         y=error1,
-        name="Learning rate: 0.0001",
+        name="Learning rate: 0.01",
         mode="lines",
         line=dict(
             color='red'
@@ -115,7 +115,7 @@ def plot_iter(plot_title, result_file, figure_file):
     trace2 = go.Scatter(
         x=epochs,
         y=error2,
-        name="Learning rate: 0.00001",
+        name="Learning rate: 0.001",
         mode="lines",
         line=dict(
             color='blue'
@@ -126,7 +126,7 @@ def plot_iter(plot_title, result_file, figure_file):
     trace3 = go.Scatter(
         x=epochs,
         y=error3,
-        name="Learning rate: 0.000001",
+        name="Learning rate: 0.0001",
         mode="lines",
         line=dict(
             color='green'
@@ -137,7 +137,7 @@ def plot_iter(plot_title, result_file, figure_file):
     trace4 = go.Scatter(
         x=epochs,
         y=error4,
-        name="Learning rate: 0.0000001",
+        name="Learning rate: 0.00001",
         mode="lines",
         line=dict(
             color='orange'
@@ -179,10 +179,10 @@ def plot_iter(plot_title, result_file, figure_file):
 ########################################################################################################################
 
 
-def plot_roc(plot_title, result_file, figure_file):
+def plot_roc(plot_title, output_file, figure_file):
 
     # load data
-    data = load_result_file(result_file)
+    data = load_output_file(output_file)
 
     #
     true_pos_rates1 = []
@@ -221,7 +221,7 @@ def plot_roc(plot_title, result_file, figure_file):
     trace1 = go.Scatter(
         x=false_pos_rates1,
         y=true_pos_rates1,
-        name="Learning rate: 0.0001",
+        name="Learning rate: 0.01",
         mode="lines",
         line=dict(
             color='red'
@@ -232,7 +232,7 @@ def plot_roc(plot_title, result_file, figure_file):
     trace2 = go.Scatter(
         x=false_pos_rates2,
         y=true_pos_rates2,
-        name="Learning rate: 0.00001",
+        name="Learning rate: 0.001",
         mode="lines",
         line=dict(
             color='blue'
@@ -243,7 +243,7 @@ def plot_roc(plot_title, result_file, figure_file):
     trace3 = go.Scatter(
         x=false_pos_rates3,
         y=true_pos_rates3,
-        name="Learning rate: 0.000001",
+        name="Learning rate: 0.0001",
         mode="lines",
         line=dict(
             color='green'
@@ -254,7 +254,7 @@ def plot_roc(plot_title, result_file, figure_file):
     trace4 = go.Scatter(
         x=false_pos_rates4,
         y=true_pos_rates4,
-        name="Learning rate: 0.0000001",
+        name="Learning rate: 0.00001",
         mode="lines",
         line=dict(
             color='orange'
@@ -279,7 +279,7 @@ def plot_roc(plot_title, result_file, figure_file):
             zeroline=False
         ),
         legend=dict(
-            x=0.65,
+            x=0.68,
             y=0.1,
             borderwidth=1
         )
@@ -301,23 +301,23 @@ def main():
 
     # iteration
     # lin_sgd
-    # plot_title = "Linear Regression with Stochastic Gradient Descent"
-    # result_file = "output/save/lin_sgd/lin_sgd_all.txt"
-    # figure_file = "output/figs/lin_sgd/lin_sgd_all.png"
+    plot_title = "Linear Regression with Stochastic Gradient Descent"
+    output_file = "output/save/lin_sgd/lin_sgd_all.txt"
+    figure_file = "output/figs/lin_sgd/lin_sgd_all.png"
 
     # lin_bgd
     # plot_title = "Linear Regression with Batch Gradient Descent"
-    # result_file = "output/save/lin_bgd/lin_bgd_all.txt"
+    # output_file = "output/save/lin_bgd/lin_bgd_all.txt"
     # figure_file = "output/figs/lin_bgd/lin_bgd_all.png"
 
     # log_sgd
     # plot_title = "Logistic Regression with Stochastic Gradient Descent"
-    # result_file = "output/save/log_sgd/log_sgd_all.txt"
+    # output_file = "output/save/log_sgd/log_sgd_all.txt"
     # figure_file = "output/figs/log_sgd/log_sgd_all.png"
 
     # log_bgd
     # plot_title = "Logistic Regression with Batch Gradient Descent"
-    # result_file = "output/save/log_bgd/log_bgd_all.txt"
+    # output_file = "output/save/log_bgd/log_bgd_all.txt"
     # figure_file = "output/figs/log_bgd/log_bgd_all.png"
 
     #################################################################################
@@ -325,26 +325,26 @@ def main():
     # roc
     # lin_sgd_roc
     # plot_title = "Linear Regression with Stochastic Gradient Descent - ROC Curve"
-    # result_file = "output/save/lin_sgd/lin_sgd_all_roc.txt"
+    # output_file = "output/save/lin_sgd/lin_sgd_all_roc.txt"
     # figure_file = "output/figs/lin_sgd/lin_sgd_all_roc.png"
 
     # lin_bgd_roc
     # plot_title = "Linear Regression with Batch Gradient Descent - ROC Curve"
-    # result_file = "output/save/lin_bgd/lin_bgd_all_roc.txt"
+    # output_file = "output/save/lin_bgd/lin_bgd_all_roc.txt"
     # figure_file = "output/figs/lin_bgd/lin_bgd_all_roc.png"
 
     # log_sgd_roc
     # plot_title = "Logistic Regression with Stochastic Gradient Descent - ROC Curve"
-    # result_file = "output/save/log_sgd/log_sgd_all_roc.txt"
+    # output_file = "output/save/log_sgd/log_sgd_all_roc.txt"
     # figure_file = "output/figs/log_sgd/log_sgd_all_roc.png"
 
     # log_bgd_roc
-    plot_title = "Logistic Regression with Batch Gradient Descent - ROC Curve"
-    result_file = "output/save/log_bgd/log_bgd_all_roc.txt"
-    figure_file = "output/figs/log_bgd/log_bgd_all_roc.png"
+    # plot_title = "Logistic Regression with Batch Gradient Descent - ROC Curve"
+    # output_file = "output/save/log_bgd/log_bgd_all_roc.txt"
+    # figure_file = "output/figs/log_bgd/log_bgd_all_roc.png"
 
-    # plot_iter(plot_title, result_file, figure_file)
-    plot_roc(plot_title, result_file, figure_file)
+    plot_iter(plot_title, output_file, figure_file)
+    # plot_roc(plot_title, output_file, figure_file)
 
 
 ########################################################################################################################

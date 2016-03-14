@@ -65,7 +65,7 @@ def train(train_set, reg_grad, learning_rate, threshold):
     os.popen('rm -f ./output/text/*')
 
     # infinite while loop
-    while epoch < 2001:
+    while epoch < 501:
 
         # compute next weights
         next_weights = reg_grad(weights, train_set, learning_rate)
@@ -167,16 +167,16 @@ def test(trained_weights, test_set, reg_grad):
     print('> Test MSE:', test_mse)
     print('> Testing finished\n')
 
-    # list to hold results
-    results = []
+    # list to hold outputs
+    outputs = []
     # for every email in the test set
     for email in test_set:
         # compute updated weight
         updated_weight = sum([x * y for x, y in zip(trained_weights, email.attributes)])
-        # add every email's updated_weight and gold to results list
-        results += [eval.Result(updated_weight, email.gold)]
-    # return results
-    return results
+        # add every email's updated_weight and gold to outputs list
+        outputs += [eval.Output(updated_weight, email.gold)]
+    # return outputs
+    return outputs
 
 
 ########################################################################################################################

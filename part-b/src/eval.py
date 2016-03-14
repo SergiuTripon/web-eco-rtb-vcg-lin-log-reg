@@ -5,33 +5,33 @@ import operator
 ########################################################################################################################
 
 
-# result object
-class Result(object):
+# output object
+class Output(object):
 
     def __init__(self, trained_weight, gold):
 
-        # result weight
+        # output weight
         self.weight = trained_weight
 
-        # result gold
+        # output gold
         self.gold = gold
 
 
 ########################################################################################################################
 
 # computes roc curve data
-def roc_curve(results, reg_grad, learning_rate):
+def roc_curve(outputs, reg_grad, learning_rate):
 
-    # sort results by weight attribute
-    results = sorted(results, key=operator.attrgetter("weight"))
+    # sort outputs by weight attribute
+    outputs = sorted(outputs, key=operator.attrgetter("weight"))
 
     # list to hold pairs of true and false positive rates
     true_false_rates = []
 
-    # selects one result at a time
-    # compares its weight with the weight of all the other results
-    # for every current_result in results
-    for current_result in results:
+    # selects one output at a time
+    # compares its weight with the weight of all the other outputs
+    # for every current_output in outputs
+    for current_output in outputs:
 
         # set rates start value to 0
         true_pos = [0.0]
@@ -39,22 +39,22 @@ def roc_curve(results, reg_grad, learning_rate):
         false_neg = [0.0]
         false_pos = [0.0]
 
-        # for every result in results
-        for result in results:
-            # if result's gold is 1 and result's weight is larger or equal to current_result's weight
-            if result.gold == 1 and result.weight >= current_result.weight:
+        # for every output in outputs
+        for output in outputs:
+            # if output's gold is 1 and output's weight is larger or equal to current_output's weight
+            if output.gold == 1 and output.weight >= current_output.weight:
                 # increment true positive rate
                 true_pos[0] += 1.0
-            # if result's gold is 0 and result's weight is smaller than current_result's weight
-            elif result.gold == 0 and result.weight < current_result.weight:
+            # if output's gold is 0 and output's weight is smaller than current_output's weight
+            elif output.gold == 0 and output.weight < current_output.weight:
                 # increment true negative rate
                 true_neg[0] += 1.0
-            # if result's gold is 0 and result's weight is larger or equal to current_result's weight
-            elif result.gold == 0 and result.weight >= current_result.weight:
+            # if output's gold is 0 and output's weight is larger or equal to current_output's weight
+            elif output.gold == 0 and output.weight >= current_output.weight:
                 # increment false positive rate
                 false_pos[0] += 1.0
-            # if result's gold is 1 and result's weight is smaller than current_result's weight
-            elif result.gold == 1 and result.weight < current_result.weight:
+            # if output's gold is 1 and output's weight is smaller than current_output's weight
+            elif output.gold == 1 and output.weight < current_output.weight:
                 # increment false negative rate
                 false_neg[0] += 1.0
 
