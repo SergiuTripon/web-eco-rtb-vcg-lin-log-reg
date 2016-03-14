@@ -32,15 +32,15 @@ def add_data(token, token_format):
 
 
 # loads input file
-def load_file(file, file_format):
+def load_file(input_file, file_format):
     # do some printing to show progress
-    print('\n> Loaded "{}"'.format(file), "\n")
+    print('\n> Loaded "{}"'.format(input_file), "\n")
     # list to hold data
     data = []
     # open file
-    with open(file, mode='r') as file:
-            # for every line in file
-            for line in file:
+    with open(input_file, mode='r') as input_file:
+            # for every line in input file
+            for line in input_file:
                 # split line and assign results to tokens
                 tokens = line.split(",")
                 # for every token and token format, call the add_data function, and assign results to added_data

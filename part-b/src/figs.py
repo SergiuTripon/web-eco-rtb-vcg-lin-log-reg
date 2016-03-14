@@ -7,8 +7,10 @@ import plotly.graph_objs as go
 ########################################################################################################################
 
 
+# iteration figure object
 class IterFig(object):
 
+    # constructor taking epoch, error1, error2, error3, error4 as arguments
     def __init__(self, epoch, error1, error2, error3, error4):
 
         # epoch
@@ -27,7 +29,11 @@ class IterFig(object):
 ########################################################################################################################
 
 
+# roc curve figure object
 class ROCFig(object):
+
+    # constructor taking true_pos_rate1, false_pos_rate1, true_pos_rate2, false_pos_rate2
+    # true_pos_rate3, false_pos_rate4, true_pos_rate4, false_pos_rate4 as arguments
     def __init__(self, true_pos_rate1, false_pos_rate1, true_pos_rate2, false_pos_rate2,
                  true_pos_rate3, false_pos_rate3, true_pos_rate4, false_pos_rate4):
 
@@ -59,45 +65,70 @@ class ROCFig(object):
 ########################################################################################################################
 
 
-def load_output_file(output_file):
+# loads output file
+def load_file(output_file):
+    # list to hold data
     data = []
+    # open file
     with open(output_file, mode='r') as file:
+        # for every line in file
         for line in file:
+            # split line and assign results to tokens
             tokens = line.split(",")
+            # if output_file contains "roc"
             if "roc" in output_file:
+                # add each ROCFig object to the data list
                 data += [ROCFig(tokens[0], tokens[1], tokens[2], tokens[3], tokens[4], tokens[5], tokens[6], tokens[7])]
+            # if output_file doesn't contain "roc"
             else:
+                # add each IterFig object to the data list
                 data += [IterFig(tokens[0], tokens[1], tokens[2], tokens[3], tokens[4])]
-
+    # return data
     return data
 
 
 ########################################################################################################################
 
 
+# plots iteration figure
 def plot_iter(plot_title, output_file, figure_file):
 
     # load data
-    data = load_output_file(output_file)
+    data = load_file(output_file)
 
+    # list to hold epochs
     epochs = []
+    # for every epoch in data
     for epoch in data:
+        # append epoch to epochs list
         epochs.append(int(epoch.epoch.strip()))
 
+    # list to hold error1
     error1 = []
+    # for every epoch in data
     for error in data:
+        # append error1 to error1 list
         error1.append(float(error.error1.strip()))
 
+    # list to hold error2
     error2 = []
+    # for every epoch in data
     for error in data:
+        # append error2 to error2 list
         error2.append(float(error.error2.strip()))
 
+    # list to hold error3
     error3 = []
+    # for every epoch in data
     for error in data:
+        # append error3 to error3 list
         error3.append(float(error.error3.strip()))
 
+    # list to hold error4
     error4 = []
+    # for every epoch in data
     for error in data:
+        # append error4 to error4 list
         error4.append(float(error.error4.strip()))
 
     # setup trace 1
@@ -176,45 +207,70 @@ def plot_iter(plot_title, output_file, figure_file):
     # save figure
     py.image.save_as(fig, filename=figure_file)
 
+
 ########################################################################################################################
 
 
+# plots roc curve figure
 def plot_roc(plot_title, output_file, figure_file):
 
     # load data
-    data = load_output_file(output_file)
+    data = load_file(output_file)
 
-    #
+    # list to hold true_pos_rate1
     true_pos_rates1 = []
+    # for every true_pos_rate in data
     for true_pos_rate in data:
+        # append true_pos_rate1 to true_pos_rates1 list
         true_pos_rates1.append(float(true_pos_rate.true_pos_rate1.strip()))
 
+    # list to hold false_pos_rate1
     false_pos_rates1 = []
+    # for every false_pos_rate in data
     for false_pos_rate in data:
+        # append false_pos_rate1 to false_pos_rates1 list
         false_pos_rates1.append(float(false_pos_rate.false_pos_rate1.strip()))
 
+    # list to hold true_pos_rate2
     true_pos_rates2 = []
+    # for every true_pos_rate in data
     for true_pos_rate in data:
+        # append true_pos_rate2 to true_pos_rates2 list
         true_pos_rates2.append(float(true_pos_rate.true_pos_rate2.strip()))
 
+    # list to hold false_pos_rate2
     false_pos_rates2 = []
+    # for every false_pos_rate in data
     for false_pos_rate in data:
+        # append false_pos_rate2 to false_pos_rates2 list
         false_pos_rates2.append(float(false_pos_rate.false_pos_rate2.strip()))
 
+    # list to hold true_pos_rate3
     true_pos_rates3 = []
+    # for every true_pos_rate in data
     for true_pos_rate in data:
+        # append true_pos_rate3 to true_pos_rates3 list
         true_pos_rates3.append(float(true_pos_rate.true_pos_rate3.strip()))
 
+    # list to hold false_pos_rate3
     false_pos_rates3 = []
+    # for every false_pos_rate in data
     for false_pos_rate in data:
+        # append false_pos_rate3 to false_pos_rates3 list
         false_pos_rates3.append(float(false_pos_rate.false_pos_rate3.strip()))
 
+    # list to hold true_pos_rate4
     true_pos_rates4 = []
+    # for every true_pos_rate in data
     for true_pos_rate in data:
+        # append true_pos_rate4 to true_pos_rates4 list
         true_pos_rates4.append(float(true_pos_rate.true_pos_rate4.strip()))
 
+    # list to hold false_pos_rate4
     false_pos_rates4 = []
+    # for every false_pos_rate in data
     for false_pos_rate in data:
+        # append false_pos_rate4 to false_pos_rates4 list
         false_pos_rates4.append(float(false_pos_rate.false_pos_rate1.strip()))
 
     # setup trace 1
@@ -294,9 +350,11 @@ def plot_roc(plot_title, output_file, figure_file):
     # save figure
     py.image.save_as(fig, filename=figure_file)
 
+
 ########################################################################################################################
 
 
+# main function
 def main():
 
     # iteration
@@ -350,6 +408,7 @@ def main():
 ########################################################################################################################
 
 
+# runs main function
 if __name__ == '__main__':
     main()
 
