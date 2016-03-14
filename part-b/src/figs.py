@@ -28,8 +28,8 @@ class IterFig(object):
 
 
 class ROCFig(object):
-    def __init__(self, true_pos_rate1, false_pos_rate1, true_pos_rate2, false_pos_rate2, true_pos_rate3,
-                 false_pos_rate3, true_pos_rate4, false_pos_rate4):
+    def __init__(self, true_pos_rate1, false_pos_rate1, true_pos_rate2, false_pos_rate2,
+                 true_pos_rate3, false_pos_rate3, true_pos_rate4, false_pos_rate4):
 
         # true_pos_rate1
         self.true_pos_rate1 = true_pos_rate1
@@ -75,10 +75,10 @@ def load_result_file(result_file):
 ########################################################################################################################
 
 
-def plot_iter(result_file, plot_title):
+def plot_iter(plot_title, result_file, figure_file):
 
     # load data
-    data = load_result_file("output/save/lin_sgd/" + result_file + ".txt")
+    data = load_result_file(result_file)
 
     epochs = []
     for epoch in data:
@@ -100,14 +100,11 @@ def plot_iter(result_file, plot_title):
     for error in data:
         error4.append(float(error.error4.strip()))
 
-    # sets the figure_file naming to be same as result_file
-    figure_file = "output/figs/{}".format(result_file)
-
     # setup trace 1
     trace1 = go.Scatter(
         x=epochs,
         y=error1,
-        name="Learning rate: 0.01",
+        name="Learning rate: 0.0001",
         mode="lines",
         line=dict(
             color='red'
@@ -118,7 +115,7 @@ def plot_iter(result_file, plot_title):
     trace2 = go.Scatter(
         x=epochs,
         y=error2,
-        name="Learning rate: 0.001",
+        name="Learning rate: 0.00001",
         mode="lines",
         line=dict(
             color='blue'
@@ -129,7 +126,7 @@ def plot_iter(result_file, plot_title):
     trace3 = go.Scatter(
         x=epochs,
         y=error3,
-        name="Learning rate: 0.0001",
+        name="Learning rate: 0.000001",
         mode="lines",
         line=dict(
             color='green'
@@ -140,7 +137,7 @@ def plot_iter(result_file, plot_title):
     trace4 = go.Scatter(
         x=epochs,
         y=error4,
-        name="Learning rate: 0.00001",
+        name="Learning rate: 0.0000001",
         mode="lines",
         line=dict(
             color='orange'
@@ -157,14 +154,14 @@ def plot_iter(result_file, plot_title):
             title='Epoch',
             showline=True,
             zeroline=False,
-            range=[-100, 500]
+            range=[-10, 50]
         ),
         yaxis=dict(
             title='Mean Squared Error',
             showline=True
         ),
         legend=dict(
-            x=0.65,
+            x=0.68,
             y=1,
             borderwidth=1
         )
@@ -174,19 +171,20 @@ def plot_iter(result_file, plot_title):
     fig = go.Figure(data=data, layout=layout)
 
     # clear contents of output/figs folder
-    os.popen("rm -f ./output/figs/*")
+    # os.popen("rm -f ./output/figs/*")
 
     # save figure
-    py.image.save_as(fig, filename=figure_file + ".png")
+    py.image.save_as(fig, filename=figure_file)
 
 ########################################################################################################################
 
 
-def plot_roc(result_file, plot_title):
+def plot_roc(plot_title, result_file, figure_file):
 
     # load data
-    data = load_result_file("output/save/lin_sgd/" + result_file + ".txt")
+    data = load_result_file(result_file)
 
+    #
     true_pos_rates1 = []
     for true_pos_rate in data:
         true_pos_rates1.append(float(true_pos_rate.true_pos_rate1.strip()))
@@ -194,8 +192,6 @@ def plot_roc(result_file, plot_title):
     false_pos_rates1 = []
     for false_pos_rate in data:
         false_pos_rates1.append(float(false_pos_rate.false_pos_rate1.strip()))
-
-########################################################################################################################
 
     true_pos_rates2 = []
     for true_pos_rate in data:
@@ -205,8 +201,6 @@ def plot_roc(result_file, plot_title):
     for false_pos_rate in data:
         false_pos_rates2.append(float(false_pos_rate.false_pos_rate2.strip()))
 
-########################################################################################################################
-
     true_pos_rates3 = []
     for true_pos_rate in data:
         true_pos_rates3.append(float(true_pos_rate.true_pos_rate3.strip()))
@@ -214,8 +208,6 @@ def plot_roc(result_file, plot_title):
     false_pos_rates3 = []
     for false_pos_rate in data:
         false_pos_rates3.append(float(false_pos_rate.false_pos_rate3.strip()))
-
-########################################################################################################################
 
     true_pos_rates4 = []
     for true_pos_rate in data:
@@ -225,14 +217,11 @@ def plot_roc(result_file, plot_title):
     for false_pos_rate in data:
         false_pos_rates4.append(float(false_pos_rate.false_pos_rate1.strip()))
 
-    # sets the figure_file naming to be same as result_file
-    figure_file = "output/figs/{}".format(result_file)
-
     # setup trace 1
     trace1 = go.Scatter(
         x=false_pos_rates1,
         y=true_pos_rates1,
-        name="Learning rate: 0.01",
+        name="Learning rate: 0.0001",
         mode="lines",
         line=dict(
             color='red'
@@ -243,7 +232,7 @@ def plot_roc(result_file, plot_title):
     trace2 = go.Scatter(
         x=false_pos_rates2,
         y=true_pos_rates2,
-        name="Learning rate: 0.001",
+        name="Learning rate: 0.00001",
         mode="lines",
         line=dict(
             color='blue'
@@ -254,7 +243,7 @@ def plot_roc(result_file, plot_title):
     trace3 = go.Scatter(
         x=false_pos_rates3,
         y=true_pos_rates3,
-        name="Learning rate: 0.0001",
+        name="Learning rate: 0.000001",
         mode="lines",
         line=dict(
             color='green'
@@ -265,7 +254,7 @@ def plot_roc(result_file, plot_title):
     trace4 = go.Scatter(
         x=false_pos_rates4,
         y=true_pos_rates4,
-        name="Learning rate: 0.00001",
+        name="Learning rate: 0.0000001",
         mode="lines",
         line=dict(
             color='orange'
@@ -300,10 +289,10 @@ def plot_roc(result_file, plot_title):
     fig = go.Figure(data=data, layout=layout)
 
     # clear contents of output/figs folder
-    os.popen("rm -f ./output/figs/*")
+    # os.popen("rm -f ./output/figs/*")
 
     # save figure
-    py.image.save_as(fig, filename=figure_file + ".png")
+    py.image.save_as(fig, filename=figure_file)
 
 ########################################################################################################################
 
@@ -312,40 +301,50 @@ def main():
 
     # iteration
     # lin_sgd
-    plot_title = "Linear Regression with Stochastic Gradient Descent"
-    result_file = "lin_sgd_all"
+    # plot_title = "Linear Regression with Stochastic Gradient Descent"
+    # result_file = "output/save/lin_sgd/lin_sgd_all.txt"
+    # figure_file = "output/figs/lin_sgd/lin_sgd_all.png"
 
     # lin_bgd
     # plot_title = "Linear Regression with Batch Gradient Descent"
-    # result_file = "lin_bgd_roc_all"
+    # result_file = "output/save/lin_bgd/lin_bgd_all.txt"
+    # figure_file = "output/figs/lin_bgd/lin_bgd_all.png"
 
     # log_sgd
     # plot_title = "Logistic Regression with Stochastic Gradient Descent"
-    # result_file = "log_sgd_all"
+    # result_file = "output/save/log_sgd/log_sgd_all.txt"
+    # figure_file = "output/figs/log_sgd/log_sgd_all.png"
 
     # log_bgd
     # plot_title = "Logistic Regression with Batch Gradient Descent"
-    # result_file = "log_bgd_all"
+    # result_file = "output/save/log_bgd/log_bgd_all.txt"
+    # figure_file = "output/figs/log_bgd/log_bgd_all.png"
+
+    #################################################################################
 
     # roc
     # lin_sgd_roc
     # plot_title = "Linear Regression with Stochastic Gradient Descent - ROC Curve"
-    # result_file = "lin_sgd_all_roc"
+    # result_file = "output/save/lin_sgd/lin_sgd_all_roc.txt"
+    # figure_file = "output/figs/lin_sgd/lin_sgd_all_roc.png"
 
     # lin_bgd_roc
     # plot_title = "Linear Regression with Batch Gradient Descent - ROC Curve"
-    # result_file = "lin_bgd_all_roc"
+    # result_file = "output/save/lin_bgd/lin_bgd_all_roc.txt"
+    # figure_file = "output/figs/lin_bgd/lin_bgd_all_roc.png"
 
     # log_sgd_roc
     # plot_title = "Logistic Regression with Stochastic Gradient Descent - ROC Curve"
-    # result_file = "log_sgd_all_roc"
+    # result_file = "output/save/log_sgd/log_sgd_all_roc.txt"
+    # figure_file = "output/figs/log_sgd/log_sgd_all_roc.png"
 
     # log_bgd_roc
-    # plot_title = "Logistic Regression with Batch Gradient Descent - ROC Curve"
-    # result_file = "log_bgd_all_roc"
+    plot_title = "Logistic Regression with Batch Gradient Descent - ROC Curve"
+    result_file = "output/save/log_bgd/log_bgd_all_roc.txt"
+    figure_file = "output/figs/log_bgd/log_bgd_all_roc.png"
 
-    plot_iter(result_file, plot_title)
-    # plot_roc(result_file, plot_title)
+    # plot_iter(plot_title, result_file, figure_file)
+    plot_roc(plot_title, result_file, figure_file)
 
 
 ########################################################################################################################

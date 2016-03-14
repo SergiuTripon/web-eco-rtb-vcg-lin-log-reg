@@ -41,7 +41,7 @@ def main():
     # learning_rate = 0.1
 
     # threshold
-    threshold = 0.1
+    threshold = 0.173
 
     # run linear regression with stochastic gradient descent
     run.run(proc.lin_sgd, learning_rate, threshold)
