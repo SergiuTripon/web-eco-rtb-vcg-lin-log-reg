@@ -15,18 +15,32 @@ Repository contents:
 
 The aim of this assignment was to experiment with:
 
-* Part A: Real-time Bidding
-* Part B: Sponsored Search Auction
+* Part A: Real-time Bidding and Sponsored Search Auction
+* Part B: Linear and Logistic Regression with Stochastic Gradient Descent
 
-###### Part A: Real-time Bidding
+###### Part A: Real-time Bidding and Sponsored Search Auction
 
-The aim of this assignment was to help you understand some basic concepts and calculations in real-time
-bidding (RTB) based display advertising.
+The aim of the first part of this assignment was to help you understand some basic concepts and calculations in real-time
+bidding (RTB) based display advertising. The second part involved working with a sponsored search auction and assigning bids to slots using the VCG mechanism.
 
-###### Part B: Sponsored Search Auction
 
-This assignment involved working with a sponsored search auction and assigning bids to slots using the VCG mechanism.
+###### Part B: Linear and Logistic Regression with Stochastic Gradient Descent
+
+In this assignment, I tested regression and logistic regression trained via gradient descent on the Spambase data set.
 
 ---
 
 ##### Instructions
+
+To run the source code, follow the steps below:
+
+###### Part A: Real-time Bidding and Sponsored Search Auction
+
+```bash
+# running RTB
+python DriverSSA.py
+```
+
+###### Part B: Linear and Logistic Regression with Stochastic Gradient Descent
+
+To run the source code, you have to manually set up a project in an IDE that supports Scala. For this assignment, IntelliJ IDEA IDE was used.
