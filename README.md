@@ -1,6 +1,6 @@
 #### Web Economics Assignment - VCG and Logistic Regression
 
-This is an assigment I completed as part of the Web Economics module (MSc Web Science and Big Data Analytics) which I undertook at UCL.
+This is an assigment I completed as part of the [COMPGW02 - Web Economics](http://www.cs.ucl.ac.uk/teaching_learning/syllabus/msc_web_science_and_big_data_analytics/gw02_web_economics/) module (MSc Web Science and Big Data Analytics) which I undertook at UCL.
 
 Repository contents:
 
