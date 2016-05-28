@@ -37,7 +37,7 @@ To run the source code, follow the steps below:
 ###### Part A: Real-time Bidding and Sponsored Search Auction
 
 ```bash
-# running RTB
+# running VCG
 python DriverSSA.py
 ```
 
