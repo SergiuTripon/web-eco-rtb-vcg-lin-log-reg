@@ -1,6 +1,6 @@
 ### Web Economics Assignment - VCG and Logistic Regression
 
-This is an assigment I completed as part of the [COMPGW02 - Web Economics](http://www.cs.ucl.ac.uk/teaching_learning/syllabus/msc_web_science_and_big_data_analytics/gw02_web_economics/) module (MSc Web Science and Big Data Analytics) which I undertook at UCL.
+This is the code of the assigment I completed as part of the [COMPGW02 - Web Economics](http://www.cs.ucl.ac.uk/teaching_learning/syllabus/msc_web_science_and_big_data_analytics/gw02_web_economics/) module (MSc Web Science and Big Data Analytics) which I undertook at UCL.
 
 ---
 
@@ -8,8 +8,8 @@ This is an assigment I completed as part of the [COMPGW02 - Web Economics](http:
 
 * Part A source code in Python
 * Part B source code in Python
-* Part A report in PDF format
-* Part B report in PDF format
+* [Part A report](https://github.com/SergiuTripon/web-economics-rtb-vcg-lin-log-reg/blob/master/part-b-report/compgw02_part_a_report_sergiu_tripon.pdf in PDF format
+* [Part B report](https://github.com/SergiuTripon/web-economics-rtb-vcg-lin-log-reg/blob/master/part-b-report/compgw02_part_b_report_sergiu_tripon.pdf) in PDF format
 
 ---
 
