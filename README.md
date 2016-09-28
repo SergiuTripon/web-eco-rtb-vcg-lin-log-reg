@@ -8,7 +8,7 @@ This is the source code of the assignment I completed as part of the [COMPGW02 -
 
 * Part A source code in Python
 * Part B source code in Python
-* [Part A report](https://github.com/SergiuTripon/web-economics-rtb-vcg-lin-log-reg/blob/master/part-b-report/compgw02_part_a_report_sergiu_tripon.pdf in PDF format
+* [Part A report](https://github.com/SergiuTripon/web-economics-rtb-vcg-lin-log-reg/blob/master/part-b-report/compgw02_part_a_report_sergiu_tripon.pdf in PDF format)
 * [Part B report](https://github.com/SergiuTripon/web-economics-rtb-vcg-lin-log-reg/blob/master/part-b-report/compgw02_part_b_report_sergiu_tripon.pdf) in PDF format
 
 ---
