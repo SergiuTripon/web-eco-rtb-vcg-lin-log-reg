@@ -1,6 +1,6 @@
-### Web Economics - VCG and Logistic Regression - Source code
+### Web Economics - Assignment - VCG and Logistic Regression - Source code
 
-This is the source code of the assignment I completed as part of the [COMPGW02 - Web Economics](http://www.cs.ucl.ac.uk/teaching_learning/syllabus/msc_web_science_and_big_data_analytics/gw02_web_economics/) module (MSc Web Science and Big Data Analytics) which I undertook at UCL.
+Source code of the assignment completed as part of the [COMPGW02 - Web Economics](http://www.cs.ucl.ac.uk/teaching_learning/syllabus/msc_web_science_and_big_data_analytics/gw02_web_economics/) module (MSc Web Science and Big Data Analytics) at [University College London](http://www.ucl.ac.uk/).
 
 ---
 
