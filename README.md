@@ -32,7 +32,7 @@ In this assignment, I tested regression and logistic regression trained via grad
 
 ---
 
-##### Instructions
+#### Instructions
 
 To run the source code, follow the steps below:
 
